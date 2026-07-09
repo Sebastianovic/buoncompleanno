@@ -1100,9 +1100,7 @@ body {
     transition: opacity 0.18s ease-out;
 }
 
-#intro-overlay.chapter-curtain-active .chapter-curtain,
-#intro-overlay.tap-game-transition .chapter-curtain,
-#intro-overlay.stable-after-counter.show-scratch-game .chapter-curtain {
+#intro-overlay.chapter-curtain-active .chapter-curtain {
     opacity: 1;
 }
 
@@ -1129,7 +1127,7 @@ body {
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     isolation: isolate;
@@ -1142,6 +1140,7 @@ body {
         radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 44%),
         repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.075) 0 1px, rgba(255, 255, 255, 0) 1px 22px),
         linear-gradient(130deg, #64eaff 0%, #ff86c6 42%, #ff4f9b 68%, #b8f7ff 100%);
+    background-color: #ff70b7;
     background-size: 170% 170%, 160% 160%, 165% 165%, 145% 145%, 46px 46px, 230% 230%;
     transition: opacity 0.18s ease-out, transform 0.9s cubic-bezier(0.2, 0.78, 0.26, 1);
 }
@@ -1174,7 +1173,7 @@ body {
 
 #intro-overlay.tap-game-transition .tap-game-scene {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     pointer-events: auto;
     animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
 }
@@ -1260,7 +1259,7 @@ body {
 
 .tap-game-content {
     position: relative;
-    z-index: 2;
+    z-index: 20;
     width: min(46rem, 92vw);
     color: #ffffff;
     font-family: Georgia, 'Times New Roman', serif;
@@ -1269,6 +1268,7 @@ body {
     transform: translateY(1rem) scale(0.96);
 }
 
+#intro-overlay.tap-game-transition .tap-game-content,
 #intro-overlay.tap-game-ready .tap-game-content {
     opacity: 1;
     transform: translateY(0) scale(1);
