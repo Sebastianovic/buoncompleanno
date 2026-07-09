@@ -1277,6 +1277,24 @@ body {
     transform: translateY(1rem) scale(0.96);
 }
 
+.tap-game-hit-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100dvh;
+    opacity: 0;
+    pointer-events: none;
+    background: transparent;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#intro-overlay.tap-game-input-active .tap-game-hit-layer {
+    pointer-events: auto;
+}
+
 #intro-overlay.tap-game-transition .tap-game-content,
 #intro-overlay.tap-game-ready .tap-game-content {
     opacity: 1;
