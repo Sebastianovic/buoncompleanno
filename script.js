@@ -614,21 +614,16 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         tapGameStarted = true;
-        intro.classList.add('chapter-curtain-active');
-        intro.classList.remove('show-love-counter', 'counter-scroll-ready');
+        intro.classList.remove('counter-scroll-ready');
         requestAnimationFrame(() => {
-            intro.classList.add('tap-game-transition');
+            intro.classList.add('tap-game-transition', 'tap-game-ready');
         });
         if (tapGameScene) {
             tapGameScene.setAttribute('aria-hidden', 'false');
         }
         setTimeout(() => {
-            intro.classList.remove('chapter-curtain-active');
-        }, 520);
-        setTimeout(() => {
-            intro.classList.add('tap-game-ready');
             startTapGameCountdown();
-        }, 720);
+        }, 650);
     };
 
     const advanceBlueScene = () => {
