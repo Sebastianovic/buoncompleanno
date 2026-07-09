@@ -1764,6 +1764,11 @@ body {
     animation: scratch-selected-idle 3.6s ease-in-out infinite;
 }
 
+.scratch-card.is-selected::before {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.72);
+}
+
 .scratch-card.is-selected .scratch-reveal {
     font-size: clamp(1.05rem, 3.2vw, 1.45rem);
     line-height: 1.22;
