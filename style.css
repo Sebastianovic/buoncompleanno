@@ -1227,8 +1227,7 @@ body {
     }
 }
 
-#intro-overlay.stable-after-counter .blue-memory-scene,
-#intro-overlay.stable-after-counter .tap-game-scene {
+#intro-overlay.stable-after-counter .blue-memory-scene {
     animation: none !important;
     will-change: auto;
 }
