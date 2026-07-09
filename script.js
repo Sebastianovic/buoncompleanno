@@ -91,19 +91,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const padCounter = (value) => String(value).padStart(2, '0');
 
-    const updateAppHeight = () => {
-        const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-        document.documentElement.style.setProperty('--app-height', `${viewportHeight}px`);
+    const updateAppHeight = (force = false) => {
+        const currentHeight = parseFloat(document.documentElement.style.getPropertyValue('--app-height')) || 0;
+        const viewportHeight = window.innerHeight;
+        const stableHeight = force ? viewportHeight : Math.max(currentHeight, viewportHeight);
+        document.documentElement.style.setProperty('--app-height', `${stableHeight}px`);
     };
 
     updateAppHeight();
     window.addEventListener('resize', updateAppHeight);
     window.addEventListener('orientationchange', () => {
-        setTimeout(updateAppHeight, 250);
+        setTimeout(() => updateAppHeight(true), 250);
     });
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateAppHeight);
-    }
 
     const startBackgroundMusic = () => {
         if (!backgroundAudio || !backgroundAudio.paused || secondSongStarted) {
