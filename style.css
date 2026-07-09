@@ -1082,28 +1082,6 @@ body {
     animation: none;
 }
 
-.chapter-curtain {
-    position: fixed;
-    inset: 0;
-    z-index: 21500;
-    width: 100vw;
-    height: var(--app-height, 100dvh);
-    background:
-        radial-gradient(circle at 12% 16%, rgba(255, 83, 160, 0.58) 0%, rgba(255, 83, 160, 0) 42%),
-        radial-gradient(circle at 88% 24%, rgba(52, 219, 255, 0.64) 0%, rgba(52, 219, 255, 0) 44%),
-        linear-gradient(130deg, #64eaff 0%, #ff86c6 42%, #ff4f9b 68%, #b8f7ff 100%);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    contain: layout paint size;
-    transition: opacity 0.18s ease-out;
-}
-
-#intro-overlay.chapter-curtain-active .chapter-curtain {
-    opacity: 1;
-}
-
 @keyframes final-hint-float {
     0%, 100% {
         transform: translate(-50%, 0);
@@ -1131,7 +1109,7 @@ body {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     isolation: isolate;
-    contain: layout paint size;
+    contain: layout paint;
     will-change: transform, opacity;
     background:
         radial-gradient(circle at 50% 96%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.24) 22%, rgba(255, 255, 255, 0) 50%),
@@ -1180,6 +1158,7 @@ body {
 
 #intro-overlay.tap-game-transition .blue-memory-scene {
     animation: none !important;
+    overflow: visible;
 }
 
 #intro-overlay.tap-game-transition .love-counter {
