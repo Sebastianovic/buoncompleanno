@@ -233,7 +233,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const startLoveCounter = () => {
         intro.classList.remove('show-love-counter');
         void intro.offsetWidth;
-        intro.classList.add('show-love-counter');
+        intro.classList.add('show-love-counter', 'stable-after-counter');
         counterScrollReady = false;
         intro.classList.remove('counter-scroll-ready');
         if (loveCounter) {
