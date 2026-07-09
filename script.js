@@ -614,6 +614,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         tapGameStarted = true;
+        intro.classList.remove('show-love-counter', 'counter-scroll-ready');
         intro.classList.add('tap-game-transition');
         if (tapGameScene) {
             tapGameScene.setAttribute('aria-hidden', 'false');
