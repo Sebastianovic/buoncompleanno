@@ -378,24 +378,12 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         activeScratchCard = card;
         activeScratchCanvas = card.querySelector('.scratch-cover');
-        if (!wasSelected && !card.classList.contains('is-scratched')) {
-            card.dataset.scratchArmed = 'false';
-        }
         intro.classList.add('scratch-card-selected');
         if (scratchGame) {
             scratchGame.classList.add('has-selected-card');
         }
         if (!wasSelected && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    if (activeScratchCard === card && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
-                        paintScratchCover(activeScratchCanvas);
-                        card.dataset.scratchArmed = 'true';
-                    }
-                });
-            });
-        } else if (wasSelected && !card.classList.contains('is-scratched')) {
-            card.dataset.scratchArmed = 'true';
+            paintScratchCover(activeScratchCanvas);
         }
         if (!wasSelected && scratchActivationTimer) {
             clearTimeout(scratchActivationTimer);
@@ -519,11 +507,13 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!activeScratchCard || !activeScratchCanvas || activeScratchCard.classList.contains('is-scratched')) {
             return;
         }
-        activeScratchCard.dataset.scratchTouched = 'true';
-
         const rect = activeScratchCanvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
+        if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+            return;
+        }
+        activeScratchCard.dataset.scratchTouched = 'true';
         const ctx = activeScratchCanvas.getContext('2d');
         ctx.save();
         ctx.globalCompositeOperation = 'destination-out';
@@ -549,7 +539,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (cleared / (pixels.length / 4) >= 0.6) {
             card.classList.add('is-scratched');
-            card.dataset.scratchArmed = 'false';
             activeScratchCard = null;
             activeScratchCanvas = null;
             scratchPointerDown = false;
@@ -1157,6 +1146,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (scratchGame) {
         scratchGame.addEventListener('pointerdown', (event) => {
+            if (event.target.closest('.scratch-card')) {
+                return;
+            }
+            const cardFromPoint = document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.scratch-card');
+            if (cardFromPoint && scratchGame.contains(cardFromPoint)) {
+                selectScratchCard(cardFromPoint);
+                return;
+            }
             if (spaceScrollReady && !spaceZoomStarted) {
                 scratchScrollStartY = event.clientY;
                 return;
@@ -1168,6 +1165,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }, true);
 
         scratchGame.addEventListener('pointerup', (event) => {
+            if (event.target.closest('.scratch-card')) {
+                return;
+            }
             if (spaceScrollReady && !spaceZoomStarted) {
                 const deltaY = event.clientY - scratchScrollStartY;
                 if (deltaY < -54) {
@@ -1200,20 +1200,21 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             event.preventDefault();
             event.stopPropagation();
-            selectScratchCard(card);
+            const wasSelected = selectScratchCard(card);
             try {
                 card.setPointerCapture(event.pointerId);
             } catch {
                 /* Alcuni browser mobile rilasciano il pointer durante i cambi di layout. */
             }
-            if (card === activeScratchCard && !card.classList.contains('is-scratched') && card.dataset.scratchArmed === 'true') {
-                scratchPointerDown = true;
-                scratchAt(event);
-            } else if (card === activeScratchCard && !card.classList.contains('is-scratched')) {
+            if (!wasSelected || card !== activeScratchCard || card.classList.contains('is-scratched')) {
                 scratchPointerDown = false;
-            } else {
-                scratchPointerDown = false;
+                return;
             }
+            if (activeScratchCanvas && card.dataset.scratchTouched !== 'true') {
+                paintScratchCover(activeScratchCanvas);
+            }
+            scratchPointerDown = true;
+            scratchAt(event);
         });
 
         card.addEventListener('pointermove', (event) => {
