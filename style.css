@@ -1082,6 +1082,30 @@ body {
     animation: none;
 }
 
+.chapter-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 21500;
+    width: 100vw;
+    height: var(--app-height, 100dvh);
+    background:
+        radial-gradient(circle at 12% 16%, rgba(255, 83, 160, 0.58) 0%, rgba(255, 83, 160, 0) 42%),
+        radial-gradient(circle at 88% 24%, rgba(52, 219, 255, 0.64) 0%, rgba(52, 219, 255, 0) 44%),
+        linear-gradient(130deg, #64eaff 0%, #ff86c6 42%, #ff4f9b 68%, #b8f7ff 100%);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout paint size;
+    transition: opacity 0.18s ease-out;
+}
+
+#intro-overlay.chapter-curtain-active .chapter-curtain,
+#intro-overlay.tap-game-transition .chapter-curtain,
+#intro-overlay.stable-after-counter.show-scratch-game .chapter-curtain {
+    opacity: 1;
+}
+
 @keyframes final-hint-float {
     0%, 100% {
         transform: translate(-50%, 0);
@@ -1106,6 +1130,11 @@ body {
     opacity: 0;
     pointer-events: none;
     transform: translateY(100%);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    isolation: isolate;
+    contain: layout paint size;
+    will-change: transform, opacity;
     background:
         radial-gradient(circle at 50% 96%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.24) 22%, rgba(255, 255, 255, 0) 50%),
         radial-gradient(circle at 12% 16%, rgba(255, 83, 160, 0.58) 0%, rgba(255, 83, 160, 0) 42%),
@@ -1147,7 +1176,7 @@ body {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-    animation: none;
+    animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
 }
 
 #intro-overlay.tap-game-transition .blue-memory-scene {
