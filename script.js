@@ -320,6 +320,9 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchGameShown = true;
             intro.classList.remove('show-finale-text');
             intro.classList.add('show-scratch-game');
+            if (tapGameScene) {
+                tapGameScene.style.animation = 'none';
+            }
             if (tapGameFinale) {
                 tapGameFinale.setAttribute('aria-hidden', 'true');
             }
