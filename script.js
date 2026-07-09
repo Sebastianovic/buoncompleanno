@@ -664,6 +664,18 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 650);
     };
 
+    const handleTapGameTap = (event) => {
+        if (!tapGameStarted || !tapGameActive || intro.classList.contains('show-scratch-game')) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        tapCount += 1;
+        updateTapCount();
+        createTapHeart(event.clientX, event.clientY);
+    };
+
     const advanceBlueScene = () => {
         if (!blueSceneStarted) {
             return;
@@ -954,6 +966,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if (event.target.closest('button')) {
             return;
         }
+        if (tapGameStarted && event.target.closest('.tap-game-scene')) {
+            return;
+        }
         if (tapGameStarted) {
             if (tapGameActive) {
                 tapCount += 1;
@@ -976,6 +991,10 @@ window.addEventListener('DOMContentLoaded', () => {
             /* Alcuni browser mobile possono rifiutare la capture durante gesture veloci. */
         }
     });
+
+    if (tapGameScene) {
+        tapGameScene.addEventListener('pointerdown', handleTapGameTap, true);
+    }
 
     intro.addEventListener('pointermove', (event) => {
         if (!swipeEnabled || activePointerId !== event.pointerId) {
