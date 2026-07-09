@@ -366,6 +366,18 @@ window.addEventListener('DOMContentLoaded', () => {
         paintScratchCover(canvas);
     };
 
+    const findScratchCardAtPoint = (x, y) => {
+        const visibleCards = scratchCards.filter((card) => !card.classList.contains('is-scratched'));
+        const orderedCards = activeScratchCard
+            ? [activeScratchCard, ...visibleCards.filter((card) => card !== activeScratchCard)]
+            : visibleCards;
+
+        return orderedCards.find((card) => {
+            const rect = card.getBoundingClientRect();
+            return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        }) || null;
+    };
+
     const selectScratchCard = (card) => {
         if (!scratchGameShown || scratchCompleteShown) {
             return false;
@@ -383,7 +395,11 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchGame.classList.add('has-selected-card');
         }
         if (!wasSelected && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
-            paintScratchCover(activeScratchCanvas);
+            requestAnimationFrame(() => {
+                if (activeScratchCard === card && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
+                    paintScratchCover(activeScratchCanvas);
+                }
+            });
         }
         if (!wasSelected && scratchActivationTimer) {
             clearTimeout(scratchActivationTimer);
@@ -1146,12 +1162,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (scratchGame) {
         scratchGame.addEventListener('pointerdown', (event) => {
-            if (event.target.closest('.scratch-card')) {
-                return;
-            }
-            const cardFromPoint = document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.scratch-card');
-            if (cardFromPoint && scratchGame.contains(cardFromPoint)) {
-                selectScratchCard(cardFromPoint);
+            const cardFromPoint = findScratchCardAtPoint(event.clientX, event.clientY);
+            if (cardFromPoint && !scratchCompleteShown) {
+                event.preventDefault();
+                event.stopPropagation();
+                const wasSelected = selectScratchCard(cardFromPoint);
+                if (!wasSelected || cardFromPoint !== activeScratchCard || cardFromPoint.classList.contains('is-scratched')) {
+                    scratchPointerDown = false;
+                    return;
+                }
+                if (activeScratchCanvas && cardFromPoint.dataset.scratchTouched !== 'true') {
+                    paintScratchCover(activeScratchCanvas);
+                }
+                try {
+                    cardFromPoint.setPointerCapture(event.pointerId);
+                } catch {
+                    /* Alcuni browser mobile rilasciano il pointer durante i cambi di layout. */
+                }
+                scratchPointerDown = true;
+                scratchAt(event);
                 return;
             }
             if (spaceScrollReady && !spaceZoomStarted) {
@@ -1164,8 +1193,24 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchScrollStartY = event.clientY;
         }, true);
 
+        scratchGame.addEventListener('pointermove', (event) => {
+            if (!scratchPointerDown || !activeScratchCard) {
+                return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            scratchAt(event);
+        }, true);
+
         scratchGame.addEventListener('pointerup', (event) => {
-            if (event.target.closest('.scratch-card')) {
+            if (scratchPointerDown && activeScratchCard && activeScratchCanvas) {
+                event.preventDefault();
+                event.stopPropagation();
+                checkScratchProgress(activeScratchCard, activeScratchCanvas);
+                scratchPointerDown = false;
+                return;
+            }
+            if (findScratchCardAtPoint(event.clientX, event.clientY)) {
                 return;
             }
             if (spaceScrollReady && !spaceZoomStarted) {
@@ -1196,6 +1241,9 @@ window.addEventListener('DOMContentLoaded', () => {
     scratchCards.forEach((card) => {
         card.addEventListener('pointerdown', (event) => {
             if (!scratchGameShown) {
+                return;
+            }
+            if (event.eventPhase !== Event.AT_TARGET) {
                 return;
             }
             event.preventDefault();
