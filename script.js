@@ -72,7 +72,6 @@ window.addEventListener('DOMContentLoaded', () => {
     let activeScratchCanvas = null;
     let scratchPointerDown = false;
     let scratchActivationTimer = null;
-    let scratchProgressTimer = null;
     let scratchCompleteShown = false;
     let scratchBonusStarted = false;
     let scratchScrollStartY = 0;
@@ -334,7 +333,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const paintScratchCover = (canvas) => {
         const rect = canvas.getBoundingClientRect();
-        const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+        const ratio = window.devicePixelRatio || 1;
         canvas.width = Math.max(1, Math.floor(rect.width * ratio));
         canvas.height = Math.max(1, Math.floor(rect.height * ratio));
         const ctx = canvas.getContext('2d');
@@ -383,15 +382,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if (scratchGame) {
             scratchGame.classList.add('has-selected-card');
         }
-        if (!wasSelected && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
-            if (scratchActivationTimer) {
-                clearTimeout(scratchActivationTimer);
-            }
-            scratchActivationTimer = setTimeout(() => {
-                if (activeScratchCanvas && activeScratchCard === card && card.dataset.scratchTouched !== 'true') {
-                    paintScratchCover(activeScratchCanvas);
-                }
-            }, 420);
+        if (!wasSelected && scratchActivationTimer) {
+            clearTimeout(scratchActivationTimer);
+            scratchActivationTimer = null;
         }
         return wasSelected;
     };
@@ -523,17 +516,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ctx.arc(x, y, Math.max(28, rect.width * 0.1), 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
-        scheduleScratchProgressCheck(activeScratchCard, activeScratchCanvas);
-    };
-
-    const scheduleScratchProgressCheck = (card, canvas) => {
-        if (scratchProgressTimer || !card || !canvas) {
-            return;
-        }
-        scratchProgressTimer = setTimeout(() => {
-            scratchProgressTimer = null;
-            checkScratchProgress(card, canvas);
-        }, 120);
+        checkScratchProgress(activeScratchCard, activeScratchCanvas);
     };
 
     const checkScratchProgress = (card, canvas) => {
@@ -543,23 +526,17 @@ window.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
         let cleared = 0;
-        let sampled = 0;
-        const sampleStride = 32;
-        for (let i = 3; i < pixels.length; i += sampleStride) {
-            sampled += 1;
+        for (let i = 3; i < pixels.length; i += 4) {
             if (pixels[i] < 32) {
                 cleared += 1;
             }
         }
 
-        if (sampled > 0 && cleared / sampled >= 0.6) {
+        if (cleared / (pixels.length / 4) >= 0.6) {
             card.classList.add('is-scratched');
             activeScratchCard = null;
             activeScratchCanvas = null;
             scratchPointerDown = false;
-            if (scratchGame) {
-                scratchGame.classList.remove('is-scratching');
-            }
         }
     };
 
@@ -1207,23 +1184,17 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             event.preventDefault();
             event.stopPropagation();
-            const wasSelected = selectScratchCard(card);
+            selectScratchCard(card);
             try {
                 card.setPointerCapture(event.pointerId);
             } catch {
                 /* Alcuni browser mobile rilasciano il pointer durante i cambi di layout. */
             }
-            if (wasSelected) {
+            if (card === activeScratchCard && !card.classList.contains('is-scratched')) {
                 scratchPointerDown = true;
-                if (scratchGame) {
-                    scratchGame.classList.add('is-scratching');
-                }
                 scratchAt(event);
             } else {
                 scratchPointerDown = false;
-                if (scratchGame) {
-                    scratchGame.classList.remove('is-scratching');
-                }
             }
         });
 
@@ -1247,9 +1218,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 checkScratchProgress(card, activeScratchCanvas);
             }
             scratchPointerDown = false;
-            if (scratchGame) {
-                scratchGame.classList.remove('is-scratching');
-            }
         });
 
         card.addEventListener('pointercancel', (event) => {
@@ -1257,9 +1225,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 card.releasePointerCapture(event.pointerId);
             }
             scratchPointerDown = false;
-            if (scratchGame) {
-                scratchGame.classList.remove('is-scratching');
-            }
         });
     });
 });
