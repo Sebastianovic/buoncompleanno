@@ -378,9 +378,24 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         activeScratchCard = card;
         activeScratchCanvas = card.querySelector('.scratch-cover');
+        if (!wasSelected && !card.classList.contains('is-scratched')) {
+            card.dataset.scratchArmed = 'false';
+        }
         intro.classList.add('scratch-card-selected');
         if (scratchGame) {
             scratchGame.classList.add('has-selected-card');
+        }
+        if (!wasSelected && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    if (activeScratchCard === card && activeScratchCanvas && card.dataset.scratchTouched !== 'true' && !card.classList.contains('is-scratched')) {
+                        paintScratchCover(activeScratchCanvas);
+                        card.dataset.scratchArmed = 'true';
+                    }
+                });
+            });
+        } else if (wasSelected && !card.classList.contains('is-scratched')) {
+            card.dataset.scratchArmed = 'true';
         }
         if (!wasSelected && scratchActivationTimer) {
             clearTimeout(scratchActivationTimer);
@@ -534,6 +549,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (cleared / (pixels.length / 4) >= 0.6) {
             card.classList.add('is-scratched');
+            card.dataset.scratchArmed = 'false';
             activeScratchCard = null;
             activeScratchCanvas = null;
             scratchPointerDown = false;
@@ -1190,9 +1206,11 @@ window.addEventListener('DOMContentLoaded', () => {
             } catch {
                 /* Alcuni browser mobile rilasciano il pointer durante i cambi di layout. */
             }
-            if (card === activeScratchCard && !card.classList.contains('is-scratched')) {
+            if (card === activeScratchCard && !card.classList.contains('is-scratched') && card.dataset.scratchArmed === 'true') {
                 scratchPointerDown = true;
                 scratchAt(event);
+            } else if (card === activeScratchCard && !card.classList.contains('is-scratched')) {
+                scratchPointerDown = false;
             } else {
                 scratchPointerDown = false;
             }
