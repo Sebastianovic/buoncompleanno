@@ -91,6 +91,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const padCounter = (value) => String(value).padStart(2, '0');
 
+    const updateAppHeight = () => {
+        const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        document.documentElement.style.setProperty('--app-height', `${viewportHeight}px`);
+    };
+
+    updateAppHeight();
+    window.addEventListener('resize', updateAppHeight);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(updateAppHeight, 250);
+    });
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateAppHeight);
+    }
+
     const startBackgroundMusic = () => {
         if (!backgroundAudio || !backgroundAudio.paused || secondSongStarted) {
             return;
@@ -911,7 +925,11 @@ window.addEventListener('DOMContentLoaded', () => {
         swipeActive = false;
         photoSwipeStartedAfterReveal = photoRevealed;
         intro.classList.add('is-swiping');
-        intro.setPointerCapture(event.pointerId);
+        try {
+            intro.setPointerCapture(event.pointerId);
+        } catch {
+            /* Alcuni browser mobile possono rifiutare la capture durante gesture veloci. */
+        }
     });
 
     intro.addEventListener('pointermove', (event) => {
