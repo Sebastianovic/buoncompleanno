@@ -67,6 +67,9 @@ window.addEventListener('DOMContentLoaded', () => {
     let finalTapCount = 0;
     let gameCountdownTimer = null;
     let gameTimer = null;
+    let lastTapGameInputAt = 0;
+    let lastTapGameInputX = -9999;
+    let lastTapGameInputY = -9999;
     let scratchGameShown = false;
     let activeScratchCard = null;
     let activeScratchCanvas = null;
@@ -664,16 +667,46 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 650);
     };
 
-    const handleTapGameTap = (event) => {
+    const registerTapGameInput = (x, y) => {
         if (!tapGameStarted || !tapGameActive || intro.classList.contains('show-scratch-game')) {
+            return false;
+        }
+
+        const now = Date.now();
+        const isDuplicate = now - lastTapGameInputAt < 90
+            && Math.abs(x - lastTapGameInputX) < 14
+            && Math.abs(y - lastTapGameInputY) < 14;
+
+        if (isDuplicate) {
+            return false;
+        }
+
+        lastTapGameInputAt = now;
+        lastTapGameInputX = x;
+        lastTapGameInputY = y;
+        tapCount += 1;
+        updateTapCount();
+        createTapHeart(x, y);
+        return true;
+    };
+
+    const handleTapGameTap = (event) => {
+        if (registerTapGameInput(event.clientX, event.clientY)) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    };
+
+    const handleTapGameTouch = (event) => {
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) {
             return;
         }
 
-        event.preventDefault();
-        event.stopPropagation();
-        tapCount += 1;
-        updateTapCount();
-        createTapHeart(event.clientX, event.clientY);
+        if (registerTapGameInput(touch.clientX, touch.clientY)) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     };
 
     const advanceBlueScene = () => {
@@ -994,7 +1027,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (tapGameScene) {
         tapGameScene.addEventListener('pointerdown', handleTapGameTap, true);
+        tapGameScene.addEventListener('touchstart', handleTapGameTouch, { capture: true, passive: false });
     }
+
+    document.addEventListener('pointerdown', handleTapGameTap, true);
+    document.addEventListener('touchstart', handleTapGameTouch, { capture: true, passive: false });
 
     intro.addEventListener('pointermove', (event) => {
         if (!swipeEnabled || activePointerId !== event.pointerId) {
