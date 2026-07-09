@@ -772,12 +772,9 @@ body {
 
 #intro-overlay.show-love-counter .blue-memory-scene {
     background:
-        radial-gradient(circle at 50% 42%, rgba(255, 238, 246, 0.42) 0%, rgba(255, 238, 246, 0.13) 28%, rgba(255, 238, 246, 0) 58%),
-        radial-gradient(circle at 22% 20%, rgba(255, 164, 195, 0.26) 0%, rgba(255, 164, 195, 0) 38%),
-        radial-gradient(circle at 82% 78%, rgba(255, 120, 168, 0.24) 0%, rgba(255, 120, 168, 0) 44%),
-        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0 1px, rgba(255, 255, 255, 0) 1px 24px),
+        radial-gradient(circle at 50% 42%, rgba(255, 238, 246, 0.34) 0%, rgba(255, 238, 246, 0.1) 28%, rgba(255, 238, 246, 0) 58%),
         linear-gradient(145deg, #ff7aa8 0%, #e82868 48%, #a90f43 100%);
-    background-size: 125% 125%, 130% 130%, 130% 130%, 54px 54px, 100% 100%;
+    background-size: 125% 125%, 100% 100%;
     animation: none;
 }
 
@@ -842,7 +839,7 @@ body {
 }
 
 #intro-overlay.show-love-counter .counter-heart-outline {
-    opacity: 1;
+    opacity: 0.34;
     animation: none;
 }
 
@@ -916,12 +913,12 @@ body {
 .heart-burst-layer span:nth-child(20) { --bx: 0rem; --by: 12rem; --burst-color: #fff0f6; }
 
 #intro-overlay.show-love-counter .heart-burst-layer {
-    opacity: 1;
+    opacity: 0;
+    display: none;
 }
 
 #intro-overlay.show-love-counter .heart-burst-layer span {
-    animation: heart-burst-pop 1.15s cubic-bezier(0.16, 0.84, 0.28, 1) both;
-    animation-delay: calc(var(--burst-delay, 0) * 1s);
+    animation: none;
 }
 
 .heart-burst-layer span:nth-child(1) { --burst-delay: 0.00; }
@@ -2553,11 +2550,11 @@ body {
     font-family: Georgia, 'Times New Roman', serif;
     font-style: italic;
     text-align: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: none;
     text-shadow:
         0 5px 18px rgba(10, 73, 121, 0.46),
         0 0 26px rgba(255, 255, 255, 0.44);
-    animation: heart-counter-pulse 1.18s ease-in-out infinite;
+    animation: none;
 }
 
 .counter-time::before {
