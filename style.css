@@ -1104,13 +1104,10 @@ body {
     padding: 1.4rem;
     overflow: hidden;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transform: translate3d(0, 100%, 0);
-    transform-style: preserve-3d;
+    transform: translateY(100%);
     backface-visibility: hidden;
-    isolation: isolate;
-    contain: layout paint;
-    will-change: transform, opacity;
     background:
         radial-gradient(circle at 50% 96%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.24) 22%, rgba(255, 255, 255, 0) 50%),
         radial-gradient(circle at 12% 16%, rgba(255, 83, 160, 0.58) 0%, rgba(255, 83, 160, 0) 42%),
@@ -1151,8 +1148,10 @@ body {
 
 #intro-overlay.tap-game-transition .tap-game-scene {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    transform: translateY(0);
     pointer-events: auto;
+    will-change: transform, opacity;
     animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
 }
 
@@ -1323,11 +1322,13 @@ body {
         min-height: clamp(4.5rem, 11vh, 5.7rem);
     }
 
-    .scratch-card:nth-child(1) { --scratch-rotation: -3deg; }
-    .scratch-card:nth-child(2) { --scratch-rotation: 2.5deg; }
-    .scratch-card:nth-child(3) { --scratch-rotation: -1deg; }
-    .scratch-card:nth-child(4) { --scratch-rotation: 3deg; }
-    .scratch-card:nth-child(5) { --scratch-rotation: -2.5deg; }
+    .scratch-card:nth-child(1),
+    .scratch-card:nth-child(2),
+    .scratch-card:nth-child(3),
+    .scratch-card:nth-child(4),
+    .scratch-card:nth-child(5) {
+        --scratch-rotation: 0deg;
+    }
 
     .scratch-reveal {
         font-size: clamp(0.95rem, 4.1vw, 1.2rem);
@@ -1456,20 +1457,6 @@ body {
     pointer-events: none;
 }
 
-#intro-overlay.show-scratch-game .tap-game-scene {
-    animation: none;
-    will-change: auto;
-}
-
-#intro-overlay.show-scratch-game .tap-game-content,
-#intro-overlay.show-scratch-game .tap-game-finale,
-#intro-overlay.show-scratch-game .tap-game-finale-gif {
-    opacity: 0;
-    pointer-events: none;
-    animation: none;
-    transition: opacity 0.24s ease-out;
-}
-
 .tap-game-finale-text.text-pop-in {
     animation: finale-text-pop 0.72s cubic-bezier(0.18, 1.28, 0.28, 1) both;
 }
@@ -1503,8 +1490,6 @@ body {
     transform: translateY(1.2rem) scale(0.96);
     width: 100%;
     height: 100%;
-    contain: layout paint;
-    isolation: isolate;
 }
 
 #intro-overlay.show-scratch-game .scratch-game {
@@ -1624,7 +1609,7 @@ body {
     box-shadow:
         0 18px 42px rgba(105, 28, 82, 0.18),
         inset 0 0 0 1px rgba(255, 255, 255, 0.24);
-    backdrop-filter: none;
+    backdrop-filter: blur(10px);
     touch-action: none;
     transform: rotate(var(--scratch-rotation, 0deg));
     backface-visibility: hidden;
@@ -1632,15 +1617,6 @@ body {
     transition: opacity 0.34s ease-out, transform 0.55s cubic-bezier(0.2, 0.78, 0.26, 1), box-shadow 0.42s ease-out;
     animation: scratch-card-idle 4.8s ease-in-out infinite;
     animation-delay: var(--scratch-idle-delay, 0s);
-}
-
-.scratch-game.is-scratching .scratch-card,
-.scratch-game.has-selected-card .scratch-card {
-    animation: none;
-}
-
-.scratch-game.is-scratching .scratch-card {
-    transition: none;
 }
 
 .scratch-card:nth-child(1) {
@@ -1780,11 +1756,6 @@ body {
         0 0 0 1px rgba(255, 255, 255, 0.44),
         inset 0 0 0 1px rgba(255, 255, 255, 0.28);
     animation: scratch-selected-idle 3.6s ease-in-out infinite;
-}
-
-.scratch-game.is-scratching .scratch-card.is-selected {
-    animation: none;
-    transform: translate(-50%, -50%) scale(1);
 }
 
 .scratch-card.is-selected .scratch-reveal {
