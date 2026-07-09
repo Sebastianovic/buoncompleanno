@@ -320,6 +320,9 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchGameShown = true;
             intro.classList.remove('show-finale-text');
             intro.classList.add('show-scratch-game');
+            if (tapGameFinale) {
+                tapGameFinale.setAttribute('aria-hidden', 'true');
+            }
             if (scratchGame) {
                 scratchGame.setAttribute('aria-hidden', 'false');
             }
@@ -636,6 +639,12 @@ window.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => {
             intro.classList.add('tap-game-transition', 'tap-game-ready');
         });
+        if (blueMemoryScene) {
+            blueMemoryScene.setAttribute('aria-hidden', 'true');
+        }
+        if (loveCounter) {
+            loveCounter.setAttribute('aria-hidden', 'true');
+        }
         if (tapGameScene) {
             tapGameScene.setAttribute('aria-hidden', 'false');
         }
@@ -681,6 +690,12 @@ window.addEventListener('DOMContentLoaded', () => {
         blueTextStep = 0;
         intro.classList.remove('blue-text-ready');
         intro.classList.add('blue-scene-active');
+        if (photoStack) {
+            photoStack.setAttribute('aria-hidden', 'true');
+        }
+        if (albumScrollHint) {
+            albumScrollHint.setAttribute('aria-hidden', 'true');
+        }
         if (blueMemoryScene) {
             blueMemoryScene.setAttribute('aria-hidden', 'false');
         }
