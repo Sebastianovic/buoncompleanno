@@ -7,8 +7,10 @@
 
 body {
     font-family: 'Arial', sans-serif; /* Scegli un font estivo se vuoi! */
-    background: url('sunset.jpg') center/cover no-repeat fixed;
+    min-height: var(--app-height, 100dvh);
+    background: url('sunset.jpg') center/cover no-repeat;
     overflow-x: hidden; /* Evita fastidiosi scroll orizzontali su mobile */
+    overscroll-behavior: none;
 }
 
 /* Overlay che copre tutto lo schermo */
@@ -21,7 +23,8 @@ body {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: var(--app-height, 100dvh);
+    min-height: var(--app-height, 100dvh);
     background: transparent;
     display: flex;
     justify-content: center;
@@ -37,7 +40,7 @@ body {
     inset: 0;
     background:
         linear-gradient(rgba(255, 105, 180, 0.45), rgba(255, 105, 180, 0.45)),
-        url('sunset.jpg') center/cover no-repeat fixed;
+        url('sunset.jpg') center/cover no-repeat;
     transform: scale(1);
     transform-origin: center center;
     transition: transform 2s ease-in-out;
@@ -718,6 +721,7 @@ body {
 .blue-memory-scene {
     position: absolute;
     inset: 0;
+    min-height: var(--app-height, 100dvh);
     z-index: 20000;
     display: flex;
     align-items: center;
@@ -1081,6 +1085,7 @@ body {
 .tap-game-scene {
     position: absolute;
     inset: 0;
+    min-height: var(--app-height, 100dvh);
     z-index: 12;
     display: flex;
     align-items: center;
@@ -1826,6 +1831,8 @@ body {
 .space-scene {
     position: fixed;
     inset: 0;
+    height: var(--app-height, 100dvh);
+    min-height: var(--app-height, 100dvh);
     z-index: 30000;
     display: flex;
     align-items: center;
