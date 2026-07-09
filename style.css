@@ -767,7 +767,7 @@ body {
     opacity: 1;
     transform: translateY(0);
     pointer-events: none;
-    animation: blue-memory-drift 12s ease-in-out infinite alternate;
+    animation: none;
 }
 
 #intro-overlay.show-love-counter .blue-memory-scene {
@@ -776,6 +776,11 @@ body {
         linear-gradient(145deg, #ff7aa8 0%, #e82868 48%, #a90f43 100%);
     background-size: 125% 125%, 100% 100%;
     animation: none;
+}
+
+#intro-overlay.show-love-counter .blue-memory-scene::before,
+#intro-overlay.show-love-counter .blue-memory-scene::after {
+    display: none;
 }
 
 @keyframes blue-memory-drift {
@@ -839,7 +844,8 @@ body {
 }
 
 #intro-overlay.show-love-counter .counter-heart-outline {
-    opacity: 0.34;
+    display: none;
+    opacity: 0;
     animation: none;
 }
 
@@ -919,6 +925,10 @@ body {
 
 #intro-overlay.show-love-counter .heart-burst-layer span {
     animation: none;
+}
+
+#intro-overlay.show-love-counter .counter-hearts {
+    display: none;
 }
 
 .heart-burst-layer span:nth-child(1) { --burst-delay: 0.00; }
@@ -1069,7 +1079,7 @@ body {
 #intro-overlay.counter-scroll-ready:not(.tap-game-transition) .final-scroll-hint {
     opacity: 1;
     transform: translate(-50%, 0);
-    animation: final-hint-float 2.2s ease-in-out infinite;
+    animation: none;
 }
 
 @keyframes final-hint-float {
@@ -1137,7 +1147,7 @@ body {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-    animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
+    animation: none;
 }
 
 #intro-overlay.tap-game-transition .blue-memory-scene {
@@ -1151,14 +1161,15 @@ body {
 }
 
 #intro-overlay.tap-game-transition .tap-game-scene::before {
-    opacity: 1;
-    transform: translateY(-130%);
-    transition: opacity 0.8s ease-out 0.1s, transform 1.1s cubic-bezier(0.2, 0.78, 0.26, 1);
+    opacity: 0;
+    display: none;
+    transition: none;
 }
 
 #intro-overlay.tap-game-transition .tap-game-scene::after {
-    opacity: 1;
-    animation: tap-game-light-sweep 5.2s ease-in-out infinite alternate;
+    opacity: 0;
+    display: none;
+    animation: none;
 }
 
 @keyframes tap-game-gradient-drift {
@@ -1185,6 +1196,18 @@ body {
         transform: translateX(18%) translateY(-6%) rotate(4deg);
         opacity: 0.76;
     }
+}
+
+#intro-overlay.stable-after-counter .blue-memory-scene,
+#intro-overlay.stable-after-counter .tap-game-scene {
+    animation: none !important;
+    will-change: auto;
+}
+
+#intro-overlay.stable-after-counter .tap-game-scene::before,
+#intro-overlay.stable-after-counter .tap-game-scene::after {
+    display: none !important;
+    animation: none !important;
 }
 
 #intro-overlay.tap-game-transition .counter-kicker {
