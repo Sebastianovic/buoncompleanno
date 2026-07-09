@@ -11,6 +11,8 @@ body {
     background: url('sunset.jpg') center/cover no-repeat;
     overflow-x: hidden; /* Evita fastidiosi scroll orizzontali su mobile */
     overscroll-behavior: none;
+    position: fixed;
+    width: 100%;
 }
 
 /* Overlay che copre tutto lo schermo */
@@ -776,7 +778,7 @@ body {
         repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0 1px, rgba(255, 255, 255, 0) 1px 24px),
         linear-gradient(145deg, #ff7aa8 0%, #e82868 48%, #a90f43 100%);
     background-size: 125% 125%, 130% 130%, 130% 130%, 54px 54px, 100% 100%;
-    animation: red-memory-drift 10s ease-in-out infinite alternate;
+    animation: none;
 }
 
 @keyframes blue-memory-drift {
@@ -841,7 +843,7 @@ body {
 
 #intro-overlay.show-love-counter .counter-heart-outline {
     opacity: 1;
-    animation: giant-heart-outline-pulse 1.35s ease-in-out infinite;
+    animation: none;
 }
 
 @keyframes giant-heart-outline-pulse {
@@ -1083,10 +1085,12 @@ body {
 }
 
 .tap-game-scene {
-    position: absolute;
+    position: fixed;
     inset: 0;
+    width: 100vw;
+    height: var(--app-height, 100dvh);
     min-height: var(--app-height, 100dvh);
-    z-index: 12;
+    z-index: 22000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1103,7 +1107,7 @@ body {
         repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.075) 0 1px, rgba(255, 255, 255, 0) 1px 22px),
         linear-gradient(130deg, #64eaff 0%, #ff86c6 42%, #ff4f9b 68%, #b8f7ff 100%);
     background-size: 170% 170%, 160% 160%, 165% 165%, 145% 145%, 46px 46px, 230% 230%;
-    transition: opacity 0.62s ease-out, transform 1s cubic-bezier(0.2, 0.78, 0.26, 1);
+    transition: opacity 0.18s ease-out, transform 0.9s cubic-bezier(0.2, 0.78, 0.26, 1);
 }
 
 .tap-game-scene::before {
@@ -1137,6 +1141,16 @@ body {
     transform: translateY(0);
     pointer-events: auto;
     animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
+}
+
+#intro-overlay.tap-game-transition .blue-memory-scene {
+    animation: none !important;
+}
+
+#intro-overlay.tap-game-transition .love-counter {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.28s ease-out, transform 0.28s ease-out;
 }
 
 #intro-overlay.tap-game-transition .tap-game-scene::before {
