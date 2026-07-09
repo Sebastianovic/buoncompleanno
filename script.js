@@ -320,9 +320,6 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchGameShown = true;
             intro.classList.remove('show-finale-text');
             intro.classList.add('show-scratch-game');
-            if (tapGameScene) {
-                tapGameScene.style.animation = 'none';
-            }
             if (tapGameFinale) {
                 tapGameFinale.setAttribute('aria-hidden', 'true');
             }
@@ -546,6 +543,16 @@ window.addEventListener('DOMContentLoaded', () => {
         checkScratchProgress(activeScratchCard, activeScratchCanvas);
     };
 
+    const releaseScratchCover = (canvas) => {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        canvas.width = 1;
+        canvas.height = 1;
+    };
+
     const checkScratchProgress = (card, canvas) => {
         if (!card || !canvas || card.classList.contains('is-scratched')) {
             return;
@@ -561,6 +568,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (cleared / (pixels.length / 4) >= 0.6) {
             card.classList.add('is-scratched');
+            releaseScratchCover(canvas);
             activeScratchCard = null;
             activeScratchCanvas = null;
             scratchPointerDown = false;
