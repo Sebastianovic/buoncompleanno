@@ -1485,8 +1485,15 @@ body {
 
 #intro-overlay.show-scratch-game .tap-game-content,
 #intro-overlay.show-scratch-game .tap-game-finale {
+    opacity: 0 !important;
     visibility: hidden;
     pointer-events: none;
+    animation: none !important;
+}
+
+#intro-overlay.show-scratch-game .tap-game-scene {
+    animation: none !important;
+    background: transparent !important;
 }
 
 .tap-game-finale-text.text-pop-in {
@@ -1512,14 +1519,14 @@ body {
 }
 
 .scratch-game {
-    position: absolute;
+    position: fixed;
     inset: 0;
-    z-index: 6;
+    z-index: 26000;
     display: block;
     padding: clamp(1rem, 3vw, 2rem);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(1.2rem) scale(0.96);
+    transform: none;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -1535,8 +1542,8 @@ body {
 #intro-overlay.show-scratch-game .scratch-game {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0) scale(1);
-    transition: opacity 0.72s ease-out, transform 0.82s cubic-bezier(0.2, 0.78, 0.26, 1);
+    transform: none;
+    transition: opacity 0.32s ease-out;
 }
 
 .scratch-title {
@@ -1587,7 +1594,6 @@ body {
     box-shadow:
         0 14px 30px rgba(105, 28, 82, 0.22),
         inset 0 0 0 1px rgba(255, 255, 255, 0.28);
-    backdrop-filter: blur(8px);
     transition: opacity 0.28s ease-out, transform 0.36s cubic-bezier(0.2, 0.78, 0.26, 1), background 0.2s ease-out;
 }
 
@@ -1652,15 +1658,13 @@ body {
     box-shadow:
         0 18px 42px rgba(105, 28, 82, 0.18),
         inset 0 0 0 1px rgba(255, 255, 255, 0.24);
-    backdrop-filter: blur(10px);
     touch-action: none;
     pointer-events: auto;
     transform: rotate(var(--scratch-rotation, 0deg));
     backface-visibility: hidden;
     -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.34s ease-out, transform 0.55s cubic-bezier(0.2, 0.78, 0.26, 1), box-shadow 0.42s ease-out;
-    animation: scratch-card-idle 4.8s ease-in-out infinite;
-    animation-delay: var(--scratch-idle-delay, 0s);
+    transition: opacity 0.22s ease-out, transform 0.28s ease-out, box-shadow 0.28s ease-out;
+    animation: none;
 }
 
 .scratch-card:nth-child(1) {
@@ -1775,12 +1779,6 @@ body {
         inset 0 0 0 1px rgba(255, 255, 255, 0.28);
 }
 
-.scratch-grid:has(.scratch-card.is-selected) .scratch-card:not(.is-selected) {
-    opacity: 0.34;
-    transform: rotate(var(--scratch-rotation, 0deg)) scale(0.92);
-    animation: none;
-}
-
 .scratch-game.has-selected-card .scratch-card:not(.is-selected) {
     opacity: 0.34;
     transform: rotate(var(--scratch-rotation, 0deg)) scale(0.92);
@@ -1799,7 +1797,7 @@ body {
         0 34px 80px rgba(84, 20, 72, 0.38),
         0 0 0 1px rgba(255, 255, 255, 0.44),
         inset 0 0 0 1px rgba(255, 255, 255, 0.28);
-    animation: scratch-selected-idle 3.6s ease-in-out infinite;
+    animation: none;
 }
 
 .scratch-card.is-selected::before {
@@ -3830,7 +3828,7 @@ body {
         padding: 0;
         align-items: stretch;
         justify-content: space-evenly;
-        transform: translate3d(-50%, 0, 0);
+        transform: translateX(-50%);
     }
 
     .scratch-card:not(.is-selected) {
@@ -3840,7 +3838,6 @@ body {
         transform: translateY(0);
     }
 
-    .scratch-grid:has(.scratch-card.is-selected) .scratch-card:not(.is-selected),
     .scratch-game.has-selected-card .scratch-card:not(.is-selected) {
         transform: scale(0.92);
     }
@@ -3858,7 +3855,7 @@ body {
     }
 
     .scratch-game.scratch-complete .scratch-grid {
-        transform: translate3d(-50%, -2rem, 0);
+        transform: translate(-50%, -2rem);
         bottom: 4.4rem;
     }
 
