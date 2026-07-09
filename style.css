@@ -1151,7 +1151,6 @@ body {
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
-    will-change: transform, opacity;
     animation: tap-game-gradient-drift 8.5s ease-in-out infinite alternate;
 }
 
@@ -1181,15 +1180,12 @@ body {
 @keyframes tap-game-gradient-drift {
     0% {
         background-position: 50% 96%, 6% 12%, 94% 18%, 42% 44%, 0 0, 0% 50%;
-        filter: saturate(1.12) brightness(1.02);
     }
     50% {
         background-position: 52% 86%, 88% 24%, 18% 74%, 60% 54%, 34px 22px, 78% 42%;
-        filter: saturate(1.28) brightness(1.08);
     }
     100% {
         background-position: 44% 92%, 24% 78%, 72% 8%, 48% 62%, 68px 44px, 100% 50%;
-        filter: saturate(1.2) brightness(1.04);
     }
 }
 
@@ -1454,6 +1450,12 @@ body {
     opacity: 0 !important;
     transform: translate(-50%, -50%) translateY(-1rem) scale(0.94) !important;
     transition: opacity 0.36s ease-out, transform 0.36s ease-out;
+    pointer-events: none;
+}
+
+#intro-overlay.show-scratch-game .tap-game-content,
+#intro-overlay.show-scratch-game .tap-game-finale {
+    visibility: hidden;
     pointer-events: none;
 }
 
