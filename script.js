@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const counterSeconds = intro.querySelector('[data-counter-seconds]');
     const finalScrollHint = intro.querySelector('.final-scroll-hint');
     const tapGameScene = intro.querySelector('.tap-game-scene');
+    const tapGameHitLayer = intro.querySelector('.tap-game-hit-layer');
     const gameCountdown = intro.querySelector('[data-game-countdown]');
     const gameStatus = intro.querySelector('[data-game-status]');
     const tapCountDisplay = intro.querySelector('[data-tap-count]');
@@ -580,6 +581,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const startTapGamePlay = () => {
         tapGameActive = true;
+        intro.classList.add('tap-game-input-active');
         tapCount = 0;
         finalTapCount = 0;
         updateTapCount();
@@ -603,6 +605,7 @@ window.addEventListener('DOMContentLoaded', () => {
             if (remaining <= 0) {
                 clearInterval(gameTimer);
                 tapGameActive = false;
+                intro.classList.remove('tap-game-input-active');
                 finalTapCount = tapCount;
                 if (gameStatus) {
                     gameStatus.textContent = 'Tempo!';
@@ -1028,6 +1031,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if (tapGameScene) {
         tapGameScene.addEventListener('pointerdown', handleTapGameTap, true);
         tapGameScene.addEventListener('touchstart', handleTapGameTouch, { capture: true, passive: false });
+    }
+
+    if (tapGameHitLayer) {
+        tapGameHitLayer.addEventListener('pointerdown', handleTapGameTap, true);
+        tapGameHitLayer.addEventListener('touchstart', handleTapGameTouch, { capture: true, passive: false });
     }
 
     document.addEventListener('pointerdown', handleTapGameTap, true);
