@@ -711,6 +711,36 @@ body {
     animation: album-hint-float 2.4s ease-in-out infinite;
 }
 
+#intro-overlay.photo-ready .titolo-centro,
+#intro-overlay.photo-ready .touch-hint,
+#intro-overlay.photo-ready .closed-letter,
+#intro-overlay.photo-ready .followup-text,
+#intro-overlay.photo-ready .susdog-image,
+#intro-overlay.photo-ready .hmm-text,
+#intro-overlay.photo-ready .question-text,
+#intro-overlay.photo-ready .hihi-image,
+#intro-overlay.photo-ready .choice-buttons,
+#intro-overlay.photo-ready .transition-message,
+#intro-overlay.photo-ready .transition-swipe-hint,
+#intro-overlay.blue-scene-active .photo-stack,
+#intro-overlay.blue-scene-active .album-scroll-hint,
+#intro-overlay.blue-scene-active .pink-reveal-magic {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    animation: none !important;
+    transition: opacity 0.24s ease-out, visibility 0s linear 0.24s;
+}
+
+#intro-overlay.tap-game-transition .blue-memory-scene,
+#intro-overlay.tap-game-transition .blue-memory-text,
+#intro-overlay.tap-game-transition .love-counter {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    animation: none !important;
+}
+
 @keyframes album-hint-float {
     0%, 100% {
         transform: translateY(0);
@@ -1492,6 +1522,14 @@ body {
     transform: translateY(1.2rem) scale(0.96);
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0) 34%),
+        radial-gradient(circle at 84% 20%, rgba(116, 232, 255, 0.48), rgba(116, 232, 255, 0) 40%),
+        radial-gradient(circle at 50% 92%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 44%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0 1px, rgba(255, 255, 255, 0) 1px 22px),
+        linear-gradient(130deg, #64eaff 0%, #ff86c6 42%, #ff4f9b 68%, #b8f7ff 100%);
+    background-size: 145% 145%, 150% 150%, 140% 140%, 46px 46px, 100% 100%;
 }
 
 #intro-overlay.show-scratch-game .scratch-game {
