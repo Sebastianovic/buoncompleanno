@@ -623,9 +623,12 @@ window.addEventListener('DOMContentLoaded', () => {
             tapGameScene.setAttribute('aria-hidden', 'false');
         }
         setTimeout(() => {
+            intro.classList.remove('chapter-curtain-active');
+        }, 520);
+        setTimeout(() => {
             intro.classList.add('tap-game-ready');
             startTapGameCountdown();
-        }, 950);
+        }, 720);
     };
 
     const advanceBlueScene = () => {
