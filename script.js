@@ -614,8 +614,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         tapGameStarted = true;
+        intro.classList.add('chapter-curtain-active');
         intro.classList.remove('show-love-counter', 'counter-scroll-ready');
-        intro.classList.add('tap-game-transition');
+        requestAnimationFrame(() => {
+            intro.classList.add('tap-game-transition');
+        });
         if (tapGameScene) {
             tapGameScene.setAttribute('aria-hidden', 'false');
         }
