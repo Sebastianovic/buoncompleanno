@@ -1968,16 +1968,17 @@ body {
     width: min(58vw, 16rem);
     aspect-ratio: 1;
     border-radius: 50%;
-    overflow: hidden;
+    overflow: visible;
     background:
         radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 18%),
-        radial-gradient(ellipse at 28% 36%, #43b85d 0 10%, transparent 10.5%),
-        radial-gradient(ellipse at 58% 30%, #67c66d 0 9%, transparent 9.5%),
-        radial-gradient(ellipse at 68% 58%, #2d9d58 0 13%, transparent 13.5%),
-        radial-gradient(ellipse at 36% 64%, #73c96c 0 11%, transparent 11.5%),
-        linear-gradient(90deg, #0b62c9 0%, #1aa7e8 38%, #0f78d5 66%, #083d9b 100%);
-    background-size: 100% 100%, 78% 68%, 72% 56%, 86% 68%, 62% 52%, 220% 100%;
-    background-position: center, 12% 24%, 66% 18%, 82% 62%, 24% 70%, 0% 50%;
+        radial-gradient(ellipse at 24% 34%, #43b85d 0 11%, transparent 11.5%),
+        radial-gradient(ellipse at 56% 29%, #67c66d 0 10%, transparent 10.5%),
+        radial-gradient(ellipse at 70% 58%, #2d9d58 0 14%, transparent 14.5%),
+        radial-gradient(ellipse at 34% 66%, #73c96c 0 12%, transparent 12.5%),
+        radial-gradient(ellipse at 54% 48%, rgba(255, 255, 255, 0.18), transparent 42%),
+        linear-gradient(120deg, #0b62c9 0%, #1aa7e8 42%, #0f78d5 68%, #083d9b 100%);
+    background-size: 100% 100%;
+    background-position: center;
     box-shadow:
         inset -2.2rem -1.4rem 2.8rem rgba(0, 0, 0, 0.48),
         inset 0.9rem 0.7rem 1.5rem rgba(255, 255, 255, 0.22),
@@ -1985,20 +1986,23 @@ body {
         0 0 5rem rgba(62, 113, 255, 0.24);
     opacity: 0;
     transform: translateY(1rem) scale(0.78);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .earth-globe::before {
     content: '';
     position: absolute;
-    inset: -4%;
+    inset: 0;
     border-radius: inherit;
     background:
-        radial-gradient(ellipse at 30% 36%, rgba(255, 255, 255, 0.34) 0 7%, transparent 7.5%),
-        radial-gradient(ellipse at 62% 52%, rgba(255, 255, 255, 0.26) 0 8%, transparent 8.5%),
-        radial-gradient(ellipse at 44% 70%, rgba(255, 255, 255, 0.22) 0 6%, transparent 6.5%);
-    background-size: 140% 100%;
-    mix-blend-mode: screen;
-    animation: earth-clouds 6.8s linear infinite;
+        radial-gradient(ellipse at 30% 36%, rgba(255, 255, 255, 0.28) 0 7%, transparent 7.5%),
+        radial-gradient(ellipse at 62% 52%, rgba(255, 255, 255, 0.22) 0 8%, transparent 8.5%),
+        radial-gradient(ellipse at 44% 70%, rgba(255, 255, 255, 0.18) 0 6%, transparent 6.5%);
+    background-size: 100% 100%;
+    opacity: 0.72;
+    mix-blend-mode: normal;
+    pointer-events: none;
 }
 
 .earth-globe::after {
@@ -2016,7 +2020,7 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
     transition: opacity 0.9s ease-out 0.32s, transform 1.15s cubic-bezier(0.18, 1.28, 0.28, 1) 0.32s;
-    animation: earth-spin 8s linear infinite;
+    animation: earth-gentle-turn 9s ease-in-out 1.55s infinite;
 }
 
 .space-question {
@@ -2110,7 +2114,7 @@ body {
     letter-spacing: 0;
     overflow-wrap: normal;
     text-wrap: balance;
-    transform: translate(-50%, -50%) translateZ(-1px) scale(3.4);
+    transform: translate(-50%, -50%) scale(3.4);
     filter: blur(18px);
     text-shadow:
         0 8px 0 rgba(0, 0, 0, 0.72),
@@ -2135,7 +2139,7 @@ body {
         radial-gradient(ellipse at center, rgba(8, 10, 26, 0.94) 0%, rgba(17, 33, 78, 0.78) 42%, rgba(255, 117, 194, 0.1) 58%, rgba(0, 0, 0, 0) 76%);
     transform: translate(-50%, -50%);
     opacity: 0;
-    filter: blur(1.5px);
+    filter: none;
 }
 
 .scratch-game.space-zoom-out .space-love-scale {
@@ -2153,6 +2157,7 @@ body {
 .scratch-game.space-zoom-out .earth-globe {
     transform: translateY(13vh) scale(0.008);
     opacity: 0;
+    animation: none;
     transition: transform 5.2s cubic-bezier(0.16, 0.74, 0.2, 1), opacity 2.6s ease-out 0.25s;
 }
 
@@ -2574,6 +2579,15 @@ body {
     }
     100% {
         background-position: center, 112% 24%, 166% 18%, 182% 62%, 124% 70%, 100% 50%;
+    }
+}
+
+@keyframes earth-gentle-turn {
+    0%, 100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-0.18rem) scale(1.012) rotate(3deg);
     }
 }
 
