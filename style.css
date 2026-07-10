@@ -1961,13 +1961,11 @@ body {
     align-items: center;
     justify-content: center;
     background:
-        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.6px),
-        radial-gradient(circle at 74% 18%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.5px),
-        radial-gradient(circle at 82% 72%, rgba(255, 255, 255, 0.62) 0 1px, transparent 1.5px),
-        radial-gradient(circle at 28% 78%, rgba(255, 255, 255, 0.58) 0 1px, transparent 1.4px),
-        radial-gradient(circle at 50% 50%, rgba(18, 28, 72, 0.54), rgba(0, 0, 0, 0) 42%),
+        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.78) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 76% 18%, rgba(255, 255, 255, 0.62) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 50% 50%, rgba(18, 28, 72, 0.46), rgba(0, 0, 0, 0) 44%),
         #000000;
-    background-size: 13rem 13rem, 11rem 11rem, 15rem 15rem, 9rem 9rem, 100% 100%, 100% 100%;
+    background-size: 14rem 14rem, 18rem 18rem, 100% 100%, 100% 100%;
     opacity: 0;
     pointer-events: none;
     transform: scale(1.04);
@@ -1986,22 +1984,21 @@ body {
     width: min(58vw, 16rem);
     aspect-ratio: 1;
     border-radius: 50%;
-    overflow: visible;
+    overflow: hidden;
     background:
-        radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 18%),
-        radial-gradient(ellipse at 24% 34%, #43b85d 0 11%, transparent 11.5%),
-        radial-gradient(ellipse at 56% 29%, #67c66d 0 10%, transparent 10.5%),
-        radial-gradient(ellipse at 70% 58%, #2d9d58 0 14%, transparent 14.5%),
-        radial-gradient(ellipse at 34% 66%, #73c96c 0 12%, transparent 12.5%),
-        radial-gradient(ellipse at 54% 48%, rgba(255, 255, 255, 0.18), transparent 42%),
-        linear-gradient(120deg, #0b62c9 0%, #1aa7e8 42%, #0f78d5 68%, #083d9b 100%);
+        radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0) 18%),
+        radial-gradient(ellipse at 25% 36%, #4fbd62 0 10%, transparent 10.5%),
+        radial-gradient(ellipse at 58% 31%, #77ca72 0 9%, transparent 9.5%),
+        radial-gradient(ellipse at 67% 60%, #2f9b59 0 13%, transparent 13.5%),
+        radial-gradient(ellipse at 35% 67%, #78ce70 0 10%, transparent 10.5%),
+        linear-gradient(135deg, #0b62c9 0%, #1aa7e8 44%, #0f78d5 68%, #083d9b 100%);
     background-size: 100% 100%;
     background-position: center;
     box-shadow:
-        inset -2.2rem -1.4rem 2.8rem rgba(0, 0, 0, 0.48),
-        inset 0.9rem 0.7rem 1.5rem rgba(255, 255, 255, 0.22),
-        0 0 2.6rem rgba(53, 181, 255, 0.45),
-        0 0 5rem rgba(62, 113, 255, 0.24);
+        inset -1.9rem -1.2rem 2.2rem rgba(0, 0, 0, 0.46),
+        inset 0.75rem 0.6rem 1.2rem rgba(255, 255, 255, 0.22),
+        0 0 2rem rgba(53, 181, 255, 0.38),
+        0 0 3.2rem rgba(62, 113, 255, 0.18);
     opacity: 0;
     transform: translateY(1rem) scale(0.78);
     backface-visibility: hidden;
@@ -2014,11 +2011,10 @@ body {
     inset: 0;
     border-radius: inherit;
     background:
-        radial-gradient(ellipse at 30% 36%, rgba(255, 255, 255, 0.28) 0 7%, transparent 7.5%),
-        radial-gradient(ellipse at 62% 52%, rgba(255, 255, 255, 0.22) 0 8%, transparent 8.5%),
-        radial-gradient(ellipse at 44% 70%, rgba(255, 255, 255, 0.18) 0 6%, transparent 6.5%);
+        radial-gradient(ellipse at 30% 36%, rgba(255, 255, 255, 0.2) 0 7%, transparent 7.5%),
+        radial-gradient(ellipse at 63% 52%, rgba(255, 255, 255, 0.16) 0 8%, transparent 8.5%);
     background-size: 100% 100%;
-    opacity: 0.72;
+    opacity: 0.58;
     mix-blend-mode: normal;
     pointer-events: none;
 }
@@ -2038,7 +2034,7 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
     transition: opacity 0.9s ease-out 0.32s, transform 1.15s cubic-bezier(0.18, 1.28, 0.28, 1) 0.32s;
-    animation: earth-gentle-turn 9s ease-in-out 1.55s infinite;
+    animation: none;
 }
 
 .space-question {
@@ -2133,15 +2129,14 @@ body {
     overflow-wrap: normal;
     text-wrap: balance;
     transform: translate(-50%, -50%) scale(3.4);
-    filter: blur(18px);
+    filter: blur(12px);
     text-shadow:
         0 8px 0 rgba(0, 0, 0, 0.72),
         0 18px 36px rgba(0, 0, 0, 0.95),
         0 0 14px rgba(255, 255, 255, 0.74),
         0 0 32px rgba(255, 255, 255, 0.56),
-        0 0 68px rgba(255, 117, 194, 0.5),
-        0 0 118px rgba(89, 202, 255, 0.42),
-        0 0 172px rgba(152, 116, 255, 0.28);
+        0 0 64px rgba(255, 117, 194, 0.42),
+        0 0 96px rgba(89, 202, 255, 0.28);
 }
 
 .space-love-scale::before {
