@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', () => {
+(() => {
     const intro = document.getElementById('intro-overlay');
     const subtitle = intro.querySelector('.titolo-centro .sottotitolo');
     const hihiImage = intro.querySelector('.hihi-image');
@@ -40,6 +40,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const backgroundAudio2 = document.getElementById('background-audio-2');
 
     let revealStep = 0;
+    let introStarted = false;
+    let suppressIntroInputUntil = 0;
     let activePointerId = null;
     let swipeStartX = 0;
     let swipeStartY = 0;
@@ -114,6 +116,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         backgroundAudio.loop = true;
         backgroundAudio.volume = 1;
+        backgroundAudio.currentTime = 0;
         backgroundAudio.play().catch(() => {
             if (backgroundMusicGestureFallbackReady) {
                 return;
@@ -123,8 +126,6 @@ window.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('touchstart', startBackgroundMusic, { once: true, passive: true });
         });
     };
-
-    startBackgroundMusic();
 
     const fadeAudioVolume = (audio, targetVolume, durationMs, onComplete) => {
         if (!audio) {
@@ -291,7 +292,7 @@ window.addEventListener('DOMContentLoaded', () => {
             intro.classList.add('show-finale-gif');
             if (catAudio && !catAudioPlayed) {
                 catAudioPlayed = true;
-                catAudio.volume = 0.4;
+                catAudio.volume = 0.25;
                 catAudio.currentTime = 0;
                 catAudio.play().catch(() => {
                     /* Autoplay bloccato: il suono parte solo se il browser lo permette dopo il gesto. */
@@ -961,6 +962,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else if (revealStep === 3) {
             intro.classList.add('show-susdog');
             if (susAudio) {
+                susAudio.volume = 0.25;
                 susAudio.currentTime = 0;
                 susAudio.play().catch(() => {
                     /* Autoplay bloccato: si attiva al prossimo gesto dell'utente */
@@ -979,8 +981,14 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    setTimeout(() => {
-        intro.classList.add('attivo');
+    const startIntroExperience = () => {
+        if (introStarted) {
+            return;
+        }
+        introStarted = true;
+        suppressIntroInputUntil = Date.now() + 700;
+        intro.classList.add('intro-started', 'attivo');
+        startBackgroundMusic();
 
         const showHint = () => {
             intro.classList.add('intro-subtitle-settled');
@@ -996,9 +1004,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
         subtitle.addEventListener('animationend', onSubtitleRevealEnd);
         setTimeout(showHint, 2800);
-    }, 300);
+    };
+
+    document.addEventListener('pointerdown', startIntroExperience, { once: true });
+    document.addEventListener('touchstart', startIntroExperience, { once: true, passive: true });
 
     intro.addEventListener('pointerdown', (event) => {
+        if (!introStarted || Date.now() < suppressIntroInputUntil) {
+            return;
+        }
         if (event.target.closest('button')) {
             return;
         }
@@ -1082,6 +1096,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     intro.addEventListener('pointerup', (event) => {
+        if (!introStarted || Date.now() < suppressIntroInputUntil) {
+            return;
+        }
         if (activePointerId === event.pointerId) {
             const deltaX = event.clientX - swipeStartX;
             const deltaY = event.clientY - swipeStartY;
@@ -1384,4 +1401,4 @@ window.addEventListener('DOMContentLoaded', () => {
             scratchPointerDown = false;
         });
     });
-});
+})();
