@@ -962,7 +962,7 @@
         } else if (revealStep === 3) {
             intro.classList.add('show-susdog');
             if (susAudio) {
-                susAudio.volume = 0.25;
+                susAudio.volume = 0.45;
                 susAudio.currentTime = 0;
                 susAudio.play().catch(() => {
                     /* Autoplay bloccato: si attiva al prossimo gesto dell'utente */
